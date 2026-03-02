@@ -1,6 +1,8 @@
+// api/index.js
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import serverless from 'serverless-http'; // <-- added
 import connectDB from './config/db.js';
 import { errorHandler, notFound } from './middlewares/errorHandler.js';
 
@@ -55,9 +57,6 @@ app.get('/api/health', (req, res) => {
 app.use(notFound);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-  console.log(`📍 Health check: http://localhost:${PORT}/api/health`);
-});
+// Remove app.listen() because Vercel handles the server
+// Export handler for serverless
+export const handler = serverless(app);
