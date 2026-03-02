@@ -1,8 +1,8 @@
-// api/index.js
+// server.js
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import serverless from 'serverless-http'; // <-- added
+import serverless from 'serverless-http';
 import connectDB from './config/db.js';
 import { errorHandler, notFound } from './middlewares/errorHandler.js';
 
@@ -53,10 +53,14 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({ message: 'Lucky Draw API - Use /api/* endpoints' });
+});
+
 // Error handling
 app.use(notFound);
 app.use(errorHandler);
 
-// Remove app.listen() because Vercel handles the server
-// Export handler for serverless
-export const handler = serverless(app);
+// Export for Vercel serverless
+export default serverless(app);
