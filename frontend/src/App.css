@@ -1,0 +1,259 @@
+@import "tailwindcss";
+
+/* ==================== ANIMATIONS ONLY ==================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-in-out;
+}
+
+/* ==================== CARD HOVER ==================== */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* ==================== BUTTON LOADING ==================== */
+.btn-loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.btn-loading::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 50%;
+  left: 50%;
+  margin-left: -9px;
+  margin-top: -9px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 0.6s linear infinite;
+}
+
+/* ==================== SCROLLBAR (OPTIONAL) ==================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ==================== TOKEN ROLLER MACHINE ==================== */
+.token-roller-machine {
+  perspective: 800px;
+}
+
+.roller-display {
+  background: linear-gradient(145deg, #1e1b4b, #312e81, #1e1b4b);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    inset 0 0 30px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(99, 102, 241, 0.3),
+    0 10px 40px rgba(0, 0, 0, 0.3);
+  border: 3px solid #4f46e5;
+  position: relative;
+  overflow: hidden;
+}
+
+.roller-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.03) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.03) 75%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.roller-number {
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 0 20px rgba(99, 102, 241, 0.8);
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 2px;
+}
+
+/* Spinning */
+.token-roller-machine.spinning .roller-display {
+  animation: machineGlow 0.3s ease-in-out infinite alternate;
+  border-color: #818cf8;
+}
+.token-roller-machine.spinning .roller-number {
+  animation: numberBlur 0.1s linear infinite;
+}
+
+/* Slowing */
+.token-roller-machine.slowing .roller-display {
+  animation: machineGlow 0.6s ease-in-out infinite alternate;
+  border-color: #a78bfa;
+}
+.token-roller-machine.slowing .roller-number {
+  animation: numberBlur 0.25s ease-in-out infinite;
+}
+
+/* Stopped */
+.token-roller-machine.stopped .roller-display {
+  animation: machineReveal 0.6s ease-out forwards;
+  border-color: #fbbf24;
+  box-shadow:
+    inset 0 0 30px rgba(0, 0, 0, 0.5),
+    0 0 50px rgba(251, 191, 36, 0.5),
+    0 10px 40px rgba(0, 0, 0, 0.3);
+}
+.token-roller-machine.stopped .roller-number {
+  animation: numberReveal 0.6s ease-out forwards;
+  color: #fbbf24;
+  text-shadow: 0 0 30px rgba(251, 191, 36, 0.8);
+}
+
+/* Prize reveal */
+.token-roller-machine.prize-reveal .roller-display {
+  border-color: #f59e0b;
+  box-shadow:
+    inset 0 0 30px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(245, 158, 11, 0.6),
+    0 10px 40px rgba(0, 0, 0, 0.3);
+}
+.token-roller-machine.prize-reveal .roller-number {
+  color: #fbbf24;
+  text-shadow: 0 0 40px rgba(251, 191, 36, 1);
+  animation: prizeGlow 1s ease-in-out infinite alternate;
+}
+
+@keyframes machineGlow {
+  from { box-shadow: inset 0 0 30px rgba(0,0,0,0.5), 0 0 20px rgba(99,102,241,0.3); }
+  to   { box-shadow: inset 0 0 30px rgba(0,0,0,0.5), 0 0 50px rgba(99,102,241,0.6); }
+}
+
+@keyframes numberBlur {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  50%      { opacity: 0.5; transform: translateY(-3px); }
+}
+
+@keyframes machineReveal {
+  0%   { transform: scale(1.08); }
+  50%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+@keyframes numberReveal {
+  0%   { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+@keyframes prizeGlow {
+  from { text-shadow: 0 0 30px rgba(251,191,36,0.4); }
+  to   { text-shadow: 0 0 60px rgba(251,191,36,1); }
+}
+
+/* src/index.css */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-bounce {
+  animation: bounce 0.5s ease-in-out infinite;
+}
+
+.animate-pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.delay-150 {
+  animation-delay: 150ms;
+}/* Add to your index.css or component CSS */
+
+/* Winner glow effects */
+.winner-glow {
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.5), 0 0 60px rgba(99, 102, 241, 0.3);
+  animation: winnerPulse 1s ease-in-out infinite;
+}
+
+.grand-winner-glow {
+  box-shadow: 0 0 40px rgba(234, 179, 8, 0.6), 0 0 80px rgba(249, 115, 22, 0.4);
+  animation: grandWinnerPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes winnerPulse {
+  0%, 100% { box-shadow: 0 0 30px rgba(99, 102, 241, 0.5); }
+  50% { box-shadow: 0 0 50px rgba(99, 102, 241, 0.7); }
+}
+
+@keyframes grandWinnerPulse {
+  0%, 100% { box-shadow: 0 0 40px rgba(234, 179, 8, 0.6), 0 0 80px rgba(249, 115, 22, 0.4); }
+  50% { box-shadow: 0 0 60px rgba(234, 179, 8, 0.8), 0 0 100px rgba(249, 115, 22, 0.6); }
+}
