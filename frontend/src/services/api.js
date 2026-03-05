@@ -1,8 +1,11 @@
+// src/api/api.js or wherever your api.js is
 import axios from 'axios';
-import { API_URL } from '../utils/constants';
+
+// Make sure this import path is correct
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const api = axios.create({
-  baseURL: API_URL
+  baseURL: API_URL  // ✅ This will be: https://your-railway-app.up.railway.app
 });
 
 // Request interceptor
@@ -13,8 +16,6 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
 
-    // For FormData — let browser set Content-Type with boundary
-    // For JSON — set application/json
     if (config.data instanceof FormData) {
       delete config.headers['Content-Type'];
     } else {
@@ -23,9 +24,7 @@ api.interceptors.request.use(
 
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 // Response interceptor
